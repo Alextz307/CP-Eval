@@ -1,0 +1,29 @@
+# OS & IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Build artifacts
+*.o
+*.dSYM/
+cp-eval
+
+# Problem Executables (standard names in templates)
+main
+brute
+gen
+stress
+eval
+validator
+
+# Temporary files
+*.tmp
+input.in
+out_main
+out_brute
+gen_out
+gen_perm
+
+# Test Suite generated folder
+TestSuiteProb/

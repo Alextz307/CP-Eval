@@ -1,0 +1,81 @@
+# CP-Eval
+
+CP-Eval is a local competitive programming evaluation and test generation tool written in C++. It helps you verify your solutions against brute-force implementations using stress testing and evaluate them against local test suites.
+
+## Features
+
+- **Problem Generator**: Quickly set up a new problem environment with templates.
+- **Stress Testing**: Run an infinite loop comparing your solution against a brute-force approach (or others) using a generator.
+- **Evaluation**: Run your solution against a directory of input files, check outputs (diff or custom validator), and measure execution time.
+- **Customizable**: Templates for `gen`, `main`, `brute` are included.
+- **Generator Library**: `gen.cpp` includes helpers for Arrays, Permutations, Trees (Prüfer), and Graphs.
+
+## Installation
+
+1. Clone or download this repository.
+2. Build the tool:
+   ```bash
+   ./install.sh
+   ```
+   This creates the `cp-eval` executable.
+
+## Usage
+
+### 1. Create a New Problem
+```bash
+./cp-eval ProblemName
+cd ProblemName
+```
+This creates a folder `ProblemName` with:
+- `main.cpp`: Your solution.
+- `brute.cpp`: Brute-force solution (for stress testing).
+- `gen.cpp`: Generic test case generator.
+- `gen_tree.cpp`, `gen_graph.cpp`: Specialized generators using `genlib.hpp`.
+- `genlib.hpp`: Generator library header.
+- `stress.cpp` & `eval.cpp`: Comparison tools.
+- `compile.sh`: Script to compile everything.
+
+### 2. Compile
+Inside the problem directory:
+```bash
+./compile.sh
+```
+
+### 3. Stress Testing
+To stress test your solution (`main`) against the brute force (`brute`) using the generator (`gen`):
+```bash
+./stress gen main brute
+# OR using a specific generator
+./stress gen_tree main brute
+```
+You can add more executables to compare if needed.
+If a mismatch is found, it prints the input and the differing outputs, and saves the input to `input.in`.
+
+### 4. Evaluation
+To run your solution against a test suite:
+1. Place input files in an `input/` directory (e.g., `input/1.in`, `input/2.in`).
+2. (Optional) Place expected output files in an `output/` directory (e.g., `output/1.out`).
+3. Run:
+```bash
+# Check against output files
+./eval main input output
+
+# OR check using a custom validator (if no output files available or needed)
+./eval main input "" validator
+
+# OR let it auto-detect ./validator
+# If you didn't specify an output dir, and ./validator exists, it will use it.
+./eval main input
+```
+(Note: A default `validator.cpp` template is included. You should edit it to implement your problem-specific checking logic).
+
+## Project Structure
+- `src/cp_setup.cpp`: Source code for the problem generator.
+- `templates/`: Directory containing source templates (`main.cpp`, `stress.cpp`, etc.).
+- `install.sh`: Build script that compiles the tool and links the templates.
+- `test_suite.sh`: Script to verify the tool functionality.
+- `ProblemName/`: Generated problem directory (self-contained, copies templates).
+
+## Requirements
+- GCC (g++) supporting C++17.
+- Unix-like environment (Linux/macOS) **or WSL (Windows Subsystem for Linux)** with bash.
