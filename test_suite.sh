@@ -127,6 +127,29 @@ if [ ! -s gen_perm.tmp ]; then
 fi
 echo "Permutation generation verified."
 
+echo "7. Verifying Identical Filenames..."
+# Test case where input and output files have exactly the same name (no extension difference)
+# This relies on the eval.cpp logic: if (fs::exists(expected_out)) { ... }
+# effectively checking output_dir/filename first.
+
+# Create specific input/output for this test
+echo "SAME" > input/same_name_test
+echo "SAME" > output/same_name_test
+
+# Create a main that simply echoes "SAME"
+echo "#include <iostream>
+using namespace std;
+int main() { cout << \"SAME\" << endl; return 0; }" > main_same.cpp
+g++ main_same.cpp -o main_same
+
+./eval main_same input output > eval_same.tmp 2>&1
+if ! grep -q "OK" eval_same.tmp; then
+    echo "FAILED: Identical filename test failed."
+    cat eval_same.tmp
+    exit 1
+fi
+echo "Identical filename test verified."
+
 cd ..
 rm -rf $PROB
 echo "ALL TESTS PASSED."
