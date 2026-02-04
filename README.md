@@ -90,6 +90,15 @@ Additionally, `./eval` will automatically look for `./input_validator`. If it ex
 - `test_suite.py`: Python script to verify the tool functionality.
 - `ProblemName/`: Generated problem directory (self-contained, copies templates).
 
+## Git Configuration
+
+To keep your repository clean, the `.gitignore` is configured to:
+- **Ignore all root-level directories** except `src/`, `templates/`, and `tests/`. This means any new problem directory you create (e.g., `./Codeforces123/`) will **not** be tracked by git.
+- **Ignore build artifacts**: Executables like `cp-eval`, `main`, `brute`, `gen`, etc., are ignored.
+- **Ignore temporary files**: `.tmp` files, input/output files (`input.in`, `out_main`), and generator outputs are ignored.
+
+You can freely create problem workspaces in the root directory without worrying about accidentally committing them.
+
 ## Requirements
 - GCC (g++) supporting C++17.
 - Python 3.12 or higher.
