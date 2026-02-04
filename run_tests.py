@@ -174,21 +174,21 @@ def run_test_generators() -> None:
         error("genPermutation produced empty output.")
 
 
-def run_test_identical_names() -> None:
-    log("Running Identical Filenames Test...")
+def run_test_match_names() -> None:
+    log("Running Matching Names Test...")
     
-    shutil.copy(TESTS_DIR / "identical_names/main.cpp", "main_same.cpp")
-    run_command(["g++", "-O2", "-std=c++17", "main_same.cpp", "-o", "main_same"])
+    shutil.copy(TESTS_DIR / "match_names/main.cpp", "main_match.cpp")
+    run_command(["g++", "-O2", "-std=c++17", "main_match.cpp", "-o", "main_match"])
     
-    for f in (TESTS_DIR / "identical_names/input").glob("*"):
+    for f in (TESTS_DIR / "match_names/input").glob("*"):
         shutil.copy(f, "input")
-    for f in (TESTS_DIR / "identical_names/output").glob("*"):
+    for f in (TESTS_DIR / "match_names/output").glob("*"):
         shutil.copy(f, "output")
         
-    res = run_command(["./eval", "main_same", "input", "output"])
+    res = run_command(["./eval", "main_match", "input", "output"])
     if "OK" not in res.stdout:
         print(res.stdout)
-        error("Identical filename test failed.")
+        error("Match names test failed.")
 
 
 def run_test_input_validator() -> None:
@@ -245,7 +245,9 @@ def main() -> None:
         run_test_eval_basic()
         run_test_validator()
         run_test_generators()
-        run_test_identical_names()
+        run_test_generators()
+        run_test_match_names()
+        run_test_input_validator()
         run_test_input_validator()
         run_test_stress_validation()
         

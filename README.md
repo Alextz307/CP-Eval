@@ -117,4 +117,5 @@ This runs a comprehensive suite of tests covering:
 - **Evaluation**: Tests output diffing and custom validator logic (WA/OK).
 - **Generators**: Compiles and runs all template generators (Arrays, Trees, Graphs).
 - **Input Validation**: Verifies `check_inputs` and `eval` correctly filter invalid input files.
-- **Identical Files**: Ensures the tool handles `main.cpp` and `main` executable naming conflicts correctly.
+- **Match Names**: Verifies that input files (with or without extensions) are correctly matched to their corresponding output files.
+

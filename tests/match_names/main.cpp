@@ -3,6 +3,8 @@
 using namespace std;
 
 int main() {
-  cout << "SAME" << endl;
+  string s;
+  cin >> s;
+  cout << s << endl;
   return 0;
 }
