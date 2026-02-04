@@ -1,4 +1,5 @@
 #!/bin/bash
+
 TEMPLATE_DIR="$(pwd)/templates"
 
 echo "Compiling cp-eval with templates from: $TEMPLATE_DIR"

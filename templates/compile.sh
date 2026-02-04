@@ -1,4 +1,5 @@
 #!/bin/bash
+
 g++ -O2 -std=c++17 main.cpp -o main
 g++ -O2 -std=c++17 brute.cpp -o brute
 g++ -O2 -std=c++17 gen.cpp -o gen
