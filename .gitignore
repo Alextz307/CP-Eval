@@ -1,3 +1,7 @@
+#----------------------------------------------------------------------------
+# Core Ignore Rules
+#----------------------------------------------------------------------------
+
 # OS & IDE
 .DS_Store
 .vscode/
@@ -18,7 +22,8 @@ eval
 validator
 input_validator
 check_inputs
-!tests/validator/
+# Ensure the tests/validator directory is not ignored by the 'validator' rule above
+!/tests/validator/
 
 # Temporary files
 *.tmp
@@ -28,5 +33,15 @@ out_brute
 gen_out
 gen_perm
 
-# Test Suite generated folder
-TestSuiteProb/
+#----------------------------------------------------------------------------
+# Root Directory Whitelist Control
+#----------------------------------------------------------------------------
+
+# Ignore ALL directories in the root
+/*/
+
+# Whitelist specific directories requested
+# (stc -> src, templatea -> templates, test -> tests)
+!/src/
+!/templates/
+!/tests/
