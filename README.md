@@ -94,3 +94,17 @@ Additionally, `./eval` will automatically look for `./input_validator`. If it ex
 - GCC (g++) supporting C++17.
 - Python 3.12 or higher.
 - Unix-like environment (Linux/macOS) **or WSL (Windows Subsystem for Linux)** with bash.
+
+## Tool Development & Testing
+
+To verify the tool functionality (e.g., after modifying templates or source code), run the test suite:
+
+```bash
+./test_suite.py
+```
+
+This runs a comprehensive suite of tests covering:
+- Stress testing logic (detection of WA).
+- Evaluation logic (output diffing and custom validators).
+- Generator compilation and execution.
+- Input validation integration.
