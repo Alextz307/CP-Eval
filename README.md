@@ -112,7 +112,9 @@ To verify the tool functionality (e.g., after modifying templates or source code
 ```
 
 This runs a comprehensive suite of tests covering:
-- Stress testing logic (detection of WA).
-- Evaluation logic (output diffing and custom validators).
-- Generator compilation and execution.
-- Input validation integration.
+- **Stress Testing**: Verifies detection of Wrong Answer (WA) and stops on mismatch.
+- **Stress Validation**: Checks that stress testing halts when generators produce invalid input.
+- **Evaluation**: Tests output diffing and custom validator logic (WA/OK).
+- **Generators**: Compiles and runs all template generators (Arrays, Trees, Graphs).
+- **Input Validation**: Verifies `check_inputs` and `eval` correctly filter invalid input files.
+- **Identical Files**: Ensures the tool handles `main.cpp` and `main` executable naming conflicts correctly.
