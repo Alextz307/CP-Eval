@@ -4,12 +4,12 @@
 using namespace std;
 
 int main() {
-    string s;
-    cin >> s;
-    
-    if (s == "INVALID") {
-        return 1;
-    }
+  string s;
+  cin >> s;
 
-    return 0;
+  if (s == "INVALID") {
+    return 1;
+  }
+
+  return 0;
 }
