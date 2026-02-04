@@ -35,6 +35,8 @@ int main(int argc, char* argv[]) {
     try {
         fs::create_directory(problemName);
         fs::path problemPath = fs::path(problemName);
+        fs::create_directory(problemPath / "input");
+        fs::create_directory(problemPath / "output");
 
         std::vector<std::string> templates = {
             "main.cpp",
