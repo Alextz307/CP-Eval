@@ -10,7 +10,6 @@
 
 using namespace std;
 
-
 static mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 inline long long randInt(long long l, long long r) {

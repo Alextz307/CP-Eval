@@ -27,6 +27,13 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
+        if (ifstream("input_validator")) {
+             if (system("./input_validator < input.in") != 0) {
+                 cerr << "Generated input failed validation at seed " << testCase << endl;
+                 return 1;
+             }
+        }
+
         vector<string> outputs;
         bool allSame = true;
         

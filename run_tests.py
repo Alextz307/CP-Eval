@@ -215,6 +215,29 @@ def run_test_input_validator() -> None:
         error("eval did not report INVALID INPUT.")
 
 
+def run_test_stress_validation() -> None:
+    log("Running Stress Validation Test...")
+    
+    shutil.copy(TESTS_DIR / "stress_validation/gen.cpp", "gen.cpp")
+    shutil.copy(TESTS_DIR / "stress_validation/input_validator.cpp", "input_validator.cpp")
+    shutil.copy(TESTS_DIR / "stress_validation/main.cpp", "main.cpp")
+    shutil.copy(TESTS_DIR / "stress_validation/brute.cpp", "brute.cpp")
+    
+    run_command(["g++", "-O2", "-std=c++17", "gen.cpp", "-o", "gen"])
+    run_command(["g++", "-O2", "-std=c++17", "input_validator.cpp", "-o", "input_validator"])
+    run_command(["g++", "-O2", "-std=c++17", "main.cpp", "-o", "main"])
+    run_command(["g++", "-O2", "-std=c++17", "brute.cpp", "-o", "brute"])
+    
+    res = run_command(["./stress", "gen", "main", "brute"])
+    
+    if res.returncode == 0:
+        error("Stress test did not fail on invalid input.")
+        
+    if "Generated input failed validation" not in res.stderr:
+        print(res.stderr)
+        error("Stress test did not report validation failure.")
+
+
 def main() -> None:
     try:
         setup_env()
@@ -224,6 +247,7 @@ def main() -> None:
         run_test_generators()
         run_test_identical_names()
         run_test_input_validator()
+        run_test_stress_validation()
         
         os.chdir("..")
         shutil.rmtree(PROBLEM_NAME)

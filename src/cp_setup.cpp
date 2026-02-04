@@ -17,7 +17,6 @@ void copyTemplate(const std::string& filename, const fs::path& destDir) {
         fs::copy_file(source, dest, fs::copy_options::overwrite_existing);
     } catch (fs::filesystem_error& e) {
         std::cerr << "Error copying " << filename << ": " << e.what() << std::endl;
-        // Proceeding anyway, but this is critical
     }
 }
 
@@ -44,7 +43,7 @@ int main(int argc, char* argv[]) {
             "input_validator.cpp",
             "check_inputs.cpp",
             "genlib.hpp",
-            "stress.cpp",
+            "stress_test.cpp",
             "eval.cpp",
             "validator.cpp",
             "compile.sh"

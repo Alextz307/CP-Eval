@@ -32,7 +32,7 @@ This creates a folder `ProblemName` with:
 - `brute.cpp`: Brute-force solution (for stress testing).
 - `gen.cpp`: Generic test case generator.
 - `genlib.hpp`: Generator library header (contains `genTree`, `genConnectedGraph`, `genGraph`, etc.).
-- `stress.cpp` & `eval.cpp`: Comparison tools.
+- `stress_test.cpp` & `eval.cpp`: Comparison tools.
 - `compile.sh`: Script to compile everything.
 
 ### 2. Compile
@@ -48,6 +48,8 @@ To stress test your solution (`main`) against the brute force (`brute`) using th
 ```
 You can add more executables to compare if needed.
 If a mismatch is found, it prints the input and the differing outputs, and saves the input to `input.in`.
+
+Additionally, if an `input_validator` executable is present, `stress` will run it on every generated input. If validation fails, the stress tester stops and reports the invalid input.
 
 ### 4. Evaluation
 To run your solution against a test suite:
@@ -82,9 +84,9 @@ Additionally, `./eval` will automatically look for `./input_validator`. If it ex
 
 ## Project Structure
 - `src/cp_setup.cpp`: Source code for the problem generator.
-- `templates/`: Directory containing source templates (`main.cpp`, `stress.cpp`, etc.).
+- `templates/`: Directory containing source templates (`main.cpp`, `stress_test.cpp`, etc.).
 - `install.sh`: Build script that compiles the tool and links the templates.
-- `test_suite.py`: Python script to verify the tool functionality.
+- `run_tests.py`: Python script to verify the tool functionality.
 - `ProblemName/`: Generated problem directory (self-contained, copies templates).
 
 ## Git Configuration
@@ -106,7 +108,7 @@ You can freely create problem workspaces in the root directory without worrying 
 To verify the tool functionality (e.g., after modifying templates or source code), run the test suite:
 
 ```bash
-./test_suite.py
+./run_tests.py
 ```
 
 This runs a comprehensive suite of tests covering:
