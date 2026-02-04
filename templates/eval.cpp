@@ -41,9 +41,8 @@ int main(int argc, char* argv[]) {
     }
     sort(inputs.begin(), inputs.end());
 
-        double max_time = 0;
+    double max_time = 0;
     
-    // Check if input_validator exists
     bool has_input_validator = fs::exists("input_validator");
 
     for (const auto& input_path : inputs) {

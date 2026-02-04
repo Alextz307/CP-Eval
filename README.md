@@ -8,7 +8,7 @@ CP-Eval is a local competitive programming evaluation and test generation tool w
 - **Stress Testing**: Run an infinite loop comparing your solution against a brute-force approach (or others) using a generator.
 - **Evaluation**: Run your solution against a directory of input files, check outputs (diff or custom validator), and measure execution time.
 - **Input Validation**: Automatically check if your input files satisfy problem constraints using a custom validator.
-- **Customizable**: Templates for `gen`, `main`, `brute` are included.
+- **Customizable**: Templates for `generator`, `main`, `brute` are included.
 - **Generator Library**: `genlib.hpp` includes helpers for Arrays, Permutations, Trees (Prüfer), and Graphs (Connected & General).
 
 ## Installation
@@ -16,7 +16,7 @@ CP-Eval is a local competitive programming evaluation and test generation tool w
 1. Clone or download this repository.
 2. Build the tool:
    ```bash
-   ./install.sh
+   ./build.sh
    ```
    This creates the `cp-eval` executable.
 
@@ -30,7 +30,7 @@ cd ProblemName
 This creates a folder `ProblemName` with:
 - `main.cpp`: Your solution.
 - `brute.cpp`: Brute-force solution (for stress testing).
-- `gen.cpp`: Generic test case generator.
+- `generator.cpp`: Generic test case generator.
 - `genlib.hpp`: Generator library header (contains `genTree`, `genConnectedGraph`, `genGraph`, etc.).
 - `stress_test.cpp` & `eval.cpp`: Comparison tools.
 - `compile.sh`: Script to compile everything.
@@ -42,14 +42,14 @@ Inside the problem directory:
 ```
 
 ### 3. Stress Testing
-To stress test your solution (`main`) against the brute force (`brute`) using the generator (`gen`):
+To stress test your solution (`main`) against the brute force (`brute`) using the generator (`generator`):
 ```bash
-./stress gen main brute
+./stress_test generator main brute
 ```
 You can add more executables to compare if needed.
 If a mismatch is found, it prints the input and the differing outputs, and saves the input to `input.in`.
 
-Additionally, if an `input_validator` executable is present, `stress` will run it on every generated input. If validation fails, the stress tester stops and reports the invalid input.
+Additionally, if an `input_validator` executable is present, `stress_test` will run it on every generated input. If validation fails, the stress tester stops and reports the invalid input.
 
 ### 4. Evaluation
 To run your solution against a test suite:
@@ -83,9 +83,9 @@ Additionally, `./eval` will automatically look for `./input_validator`. If it ex
 
 
 ## Project Structure
-- `src/cp_setup.cpp`: Source code for the problem generator.
+- `src/problem_setup.cpp`: Source code for the problem generator.
 - `templates/`: Directory containing source templates (`main.cpp`, `stress_test.cpp`, etc.).
-- `install.sh`: Build script that compiles the tool and links the templates.
+- `build.sh`: Build script that compiles the tool and links the templates.
 - `run_tests.py`: Python script to verify the tool functionality.
 - `ProblemName/`: Generated problem directory (self-contained, copies templates).
 
@@ -93,7 +93,7 @@ Additionally, `./eval` will automatically look for `./input_validator`. If it ex
 
 To keep your repository clean, the `.gitignore` is configured to:
 - **Ignore all root-level directories** except `src/`, `templates/`, and `tests/`. This means any new problem directory you create (e.g., `./Codeforces123/`) will **not** be tracked by git.
-- **Ignore build artifacts**: Executables like `cp-eval`, `main`, `brute`, `gen`, etc., are ignored.
+- **Ignore build artifacts**: Executables like `cp-eval`, `main`, `brute`, `generator`, etc., are ignored.
 - **Ignore temporary files**: `.tmp` files, input/output files (`input.in`, `out_main`), and generator outputs are ignored.
 
 You can freely create problem workspaces in the root directory without worrying about accidentally committing them.

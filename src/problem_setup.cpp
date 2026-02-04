@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
         std::vector<std::string> templates = {
             "main.cpp",
             "brute.cpp",
-            "gen.cpp",
+            "generator.cpp",
             "input_validator.cpp",
             "check_inputs.cpp",
             "genlib.hpp",

@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 
-PROBLEM_NAME = "TestSuiteProb"
+PROBLEM_NAME = "TestSuiteProblem"
 TESTS_DIR = Path("../tests")
 RED = "\033[0;31m"
 GREEN = "\033[0;32m"
@@ -80,7 +80,7 @@ def run_test_stress_fail() -> None:
     run_command(["g++", "-O2", "-std=c++17", "main.cpp", "-o", "main"])
     run_command(["g++", "-O2", "-std=c++17", "brute.cpp", "-o", "brute"])
     
-    res = run_command(["./stress", "gen", "main", "brute"])
+    res = run_command(["./stress_test", "generator", "main", "brute"])
     
     if "FAILED" not in res.stdout and "FAILED" not in res.stderr:
         print(res.stdout)
@@ -138,38 +138,38 @@ def run_test_validator() -> None:
 def run_test_generators() -> None:
     log("Running Generator Tests...")
     
-    shutil.copy(TESTS_DIR / "generators/gen_connected_graph.cpp", "gen.cpp")
-    run_command(["g++", "-std=c++17", "gen.cpp", "-o", "gen"])
+    shutil.copy(TESTS_DIR / "generators/gen_connected_graph.cpp", "generator.cpp")
+    run_command(["g++", "-std=c++17", "generator.cpp", "-o", "generator"])
     
-    res_graph = run_command(["./gen", "123"])
+    res_graph = run_command(["./generator", "123"])
     if not res_graph.stdout.strip():
         error("genConnectedGraph produced empty output.")
         
-    shutil.copy(TESTS_DIR / "generators/gen_general_graph.cpp", "gen.cpp")
-    run_command(["g++", "-std=c++17", "gen.cpp", "-o", "gen"])
+    shutil.copy(TESTS_DIR / "generators/gen_general_graph.cpp", "generator.cpp")
+    run_command(["g++", "-std=c++17", "generator.cpp", "-o", "generator"])
     
-    res_gen_graph = run_command(["./gen", "123"])
+    res_gen_graph = run_command(["./generator", "123"])
     if not res_gen_graph.stdout.strip():
         error("genGraph produced empty output.")
 
-    shutil.copy(TESTS_DIR / "generators/gen_tree.cpp", "gen.cpp")
-    run_command(["g++", "-std=c++17", "gen.cpp", "-o", "gen"])
+    shutil.copy(TESTS_DIR / "generators/gen_tree.cpp", "generator.cpp")
+    run_command(["g++", "-std=c++17", "generator.cpp", "-o", "generator"])
     
-    res_tree = run_command(["./gen", "123"])
+    res_tree = run_command(["./generator", "123"])
     if not res_tree.stdout.strip():
         error("genTree produced empty output.")
 
-    shutil.copy(TESTS_DIR / "generators/gen_array.cpp", "gen.cpp")
-    run_command(["g++", "-std=c++17", "gen.cpp", "-o", "gen"])
+    shutil.copy(TESTS_DIR / "generators/gen_array.cpp", "generator.cpp")
+    run_command(["g++", "-std=c++17", "generator.cpp", "-o", "generator"])
     
-    res_array = run_command(["./gen", "123"])
+    res_array = run_command(["./generator", "123"])
     if not res_array.stdout.strip():
         error("genArray produced empty output.")
         
-    shutil.copy(TESTS_DIR / "generators/gen_perm.cpp", "gen.cpp")
-    run_command(["g++", "-std=c++17", "gen.cpp", "-o", "gen"])
+    shutil.copy(TESTS_DIR / "generators/gen_perm.cpp", "generator.cpp")
+    run_command(["g++", "-std=c++17", "generator.cpp", "-o", "generator"])
     
-    res_perm = run_command(["./gen", "123"])
+    res_perm = run_command(["./generator", "123"])
     if not res_perm.stdout.strip():
         error("genPermutation produced empty output.")
 
@@ -218,17 +218,17 @@ def run_test_input_validator() -> None:
 def run_test_stress_validation() -> None:
     log("Running Stress Validation Test...")
     
-    shutil.copy(TESTS_DIR / "stress_validation/gen.cpp", "gen.cpp")
+    shutil.copy(TESTS_DIR / "stress_validation/gen.cpp", "generator.cpp")
     shutil.copy(TESTS_DIR / "stress_validation/input_validator.cpp", "input_validator.cpp")
     shutil.copy(TESTS_DIR / "stress_validation/main.cpp", "main.cpp")
     shutil.copy(TESTS_DIR / "stress_validation/brute.cpp", "brute.cpp")
     
-    run_command(["g++", "-O2", "-std=c++17", "gen.cpp", "-o", "gen"])
+    run_command(["g++", "-O2", "-std=c++17", "generator.cpp", "-o", "generator"])
     run_command(["g++", "-O2", "-std=c++17", "input_validator.cpp", "-o", "input_validator"])
     run_command(["g++", "-O2", "-std=c++17", "main.cpp", "-o", "main"])
     run_command(["g++", "-O2", "-std=c++17", "brute.cpp", "-o", "brute"])
     
-    res = run_command(["./stress", "gen", "main", "brute"])
+    res = run_command(["./stress_test", "generator", "main", "brute"])
     
     if res.returncode == 0:
         error("Stress test did not fail on invalid input.")
