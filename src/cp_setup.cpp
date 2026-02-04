@@ -9,9 +9,9 @@ namespace fs = std::filesystem;
 #define TEMPLATE_DIR "./templates"
 #endif
 
-void copy_template(const std::string& filename, const fs::path& dest_dir) {
+void copyTemplate(const std::string& filename, const fs::path& destDir) {
     fs::path source = fs::path(TEMPLATE_DIR) / filename;
-    fs::path dest = dest_dir / filename;
+    fs::path dest = destDir / filename;
 
     try {
         fs::copy_file(source, dest, fs::copy_options::overwrite_existing);
@@ -27,15 +27,15 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::string problem_name = argv[1];
-    if (fs::exists(problem_name)) {
-        std::cerr << "Directory " << problem_name << " already exists." << std::endl;
+    std::string problemName = argv[1];
+    if (fs::exists(problemName)) {
+        std::cerr << "Directory " << problemName << " already exists." << std::endl;
         return 1;
     }
 
     try {
-        fs::create_directory(problem_name);
-        fs::path problem_path = fs::path(problem_name);
+        fs::create_directory(problemName);
+        fs::path problemPath = fs::path(problemName);
 
         std::vector<std::string> templates = {
             "main.cpp",
@@ -43,8 +43,6 @@ int main(int argc, char* argv[]) {
             "gen.cpp",
             "input_validator.cpp",
             "check_inputs.cpp",
-            "gen_tree.cpp",
-            "gen_graph.cpp",
             "genlib.hpp",
             "stress.cpp",
             "eval.cpp",
@@ -53,14 +51,14 @@ int main(int argc, char* argv[]) {
         };
 
         for (const auto& t : templates) {
-            copy_template(t, problem_path);
+            copyTemplate(t, problemPath);
         }
 
-        fs::permissions(problem_path / "compile.sh", 
+        fs::permissions(problemPath / "compile.sh", 
             fs::perms::owner_exec | fs::perms::owner_read | fs::perms::owner_write);
 
-        std::cout << "Created problem environment: " << problem_name << std::endl;
-        std::cout << "Run 'cd " << problem_name << " && ./compile.sh' to get started." << std::endl;
+        std::cout << "Created problem environment: " << problemName << std::endl;
+        std::cout << "Run 'cd " << problemName << " && ./compile.sh' to get started." << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;

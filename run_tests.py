@@ -6,8 +6,8 @@ import shutil
 import subprocess
 from pathlib import Path
 
-# Configuration
-PROB_NAME = "TestSuiteProb"
+
+PROBLEM_NAME = "TestSuiteProb"
 TESTS_DIR = Path("../tests")
 RED = "\033[0;31m"
 GREEN = "\033[0;32m"
@@ -35,22 +35,19 @@ def run_command(cmd_list: list[str], cwd: Path | None = None, capture: bool = Tr
         return result
     except Exception as e:
         error(f"Execution failed: {cmd_list} -> {e}")
-        # Unreachable, but satisfies type checker
         sys.exit(1)
 
 
 def setup_env() -> None:
     log("Setting up fresh environment...")
     
-    # Ensure we are in project root or correct subdir
     if Path("install.sh").exists():
-        # In root
         pass
     elif Path("../install.sh").exists():
         os.chdir("..")
     
     root_path = Path.cwd()
-    prob_path = root_path / PROB_NAME
+    prob_path = root_path / PROBLEM_NAME
     
     if prob_path.exists():
         shutil.rmtree(prob_path)
@@ -59,15 +56,13 @@ def setup_env() -> None:
     if not cp_eval_bin.exists():
         error("cp-eval binary not found. Run ./install.sh first.")
     
-    # Create problem
-    run_command([str(cp_eval_bin), PROB_NAME], capture=True)
+    run_command([str(cp_eval_bin), PROBLEM_NAME], capture=True)
     
     if not prob_path.exists():
         error("Problem directory not created.")
     
     os.chdir(prob_path)
     
-    # Compile tools
     if not Path("compile.sh").exists():
         error("compile.sh not found in problem directory.")
         
@@ -79,15 +74,12 @@ def setup_env() -> None:
 def run_test_stress_fail() -> None:
     log("Running Stress Test (Expected Failure)...")
     
-    # Copy source files
     shutil.copy(TESTS_DIR / "stress_fail/main.cpp", ".")
     shutil.copy(TESTS_DIR / "stress_fail/brute.cpp", ".")
     
-    # Compile
     run_command(["g++", "-O2", "-std=c++17", "main.cpp", "-o", "main"])
     run_command(["g++", "-O2", "-std=c++17", "brute.cpp", "-o", "brute"])
     
-    # Run stress
     res = run_command(["./stress", "gen", "main", "brute"])
     
     if "FAILED" not in res.stdout and "FAILED" not in res.stderr:
@@ -106,7 +98,6 @@ def run_test_eval_basic() -> None:
     input_dir.mkdir(exist_ok=True)
     output_dir.mkdir(exist_ok=True)
     
-    # Copy directory contents
     for f in (TESTS_DIR / "eval_basic/input").glob("*"):
         shutil.copy(f, input_dir)
     for f in (TESTS_DIR / "eval_basic/output").glob("*"):
@@ -127,7 +118,6 @@ def run_test_validator() -> None:
     shutil.copy(TESTS_DIR / "validator/validator.cpp", ".")
     run_command(["g++", "-O2", "-std=c++17", "validator.cpp", "-o", "validator"])
     
-    # 1. Test Failure
     shutil.copy(TESTS_DIR / "validator/main_fail.cpp", "main.cpp")
     run_command(["g++", "-O2", "-std=c++17", "main.cpp", "-o", "main"])
     
@@ -136,7 +126,6 @@ def run_test_validator() -> None:
         print(res_fail.stdout)
         error("Auto-validator did not detect mismatch.")
         
-    # 2. Test Success
     shutil.copy(TESTS_DIR / "validator/main_pass.cpp", "main.cpp")
     run_command(["g++", "-O2", "-std=c++17", "main.cpp", "-o", "main"])
     
@@ -149,21 +138,40 @@ def run_test_validator() -> None:
 def run_test_generators() -> None:
     log("Running Generator Tests...")
     
-    # Graph
-    shutil.copy(TESTS_DIR / "generators/gen_graph.cpp", "gen.cpp")
+    shutil.copy(TESTS_DIR / "generators/gen_connected_graph.cpp", "gen.cpp")
     run_command(["g++", "-std=c++17", "gen.cpp", "-o", "gen"])
     
     res_graph = run_command(["./gen", "123"])
     if not res_graph.stdout.strip():
-        error("gen_connected_graph produced empty output.")
+        error("genConnectedGraph produced empty output.")
         
-    # Permutation
+    shutil.copy(TESTS_DIR / "generators/gen_general_graph.cpp", "gen.cpp")
+    run_command(["g++", "-std=c++17", "gen.cpp", "-o", "gen"])
+    
+    res_gen_graph = run_command(["./gen", "123"])
+    if not res_gen_graph.stdout.strip():
+        error("genGraph produced empty output.")
+
+    shutil.copy(TESTS_DIR / "generators/gen_tree.cpp", "gen.cpp")
+    run_command(["g++", "-std=c++17", "gen.cpp", "-o", "gen"])
+    
+    res_tree = run_command(["./gen", "123"])
+    if not res_tree.stdout.strip():
+        error("genTree produced empty output.")
+
+    shutil.copy(TESTS_DIR / "generators/gen_array.cpp", "gen.cpp")
+    run_command(["g++", "-std=c++17", "gen.cpp", "-o", "gen"])
+    
+    res_array = run_command(["./gen", "123"])
+    if not res_array.stdout.strip():
+        error("genArray produced empty output.")
+        
     shutil.copy(TESTS_DIR / "generators/gen_perm.cpp", "gen.cpp")
     run_command(["g++", "-std=c++17", "gen.cpp", "-o", "gen"])
     
     res_perm = run_command(["./gen", "123"])
     if not res_perm.stdout.strip():
-        error("gen_permutation produced empty output.")
+        error("genPermutation produced empty output.")
 
 
 def run_test_identical_names() -> None:
@@ -189,23 +197,18 @@ def run_test_input_validator() -> None:
     shutil.copy(TESTS_DIR / "input_validation/input_validator.cpp", ".")
     run_command(["g++", "-O2", "-std=c++17", "input_validator.cpp", "-o", "input_validator"])
     
-    # Compile check_inputs if missing (should be there from setup)
     if not Path("check_inputs").exists():
         shutil.copy("../templates/check_inputs.cpp", ".")
         run_command(["g++", "-O2", "-std=c++17", "check_inputs.cpp", "-o", "check_inputs"])
         
-    # Copy inputs
     for f in (TESTS_DIR / "input_validation/input").glob("*"):
         shutil.copy(f, "input")
         
-    # 1. Standalone check
     res_check = run_command(["./check_inputs"])
     if "FAIL" not in res_check.stdout:
         print(res_check.stdout)
         error("check_inputs did not report failures.")
         
-    # 2. Eval Integration (using main from previous test)
-    # We expect ./eval to see the validator and fail on bad inputs
     res_eval = run_command(["./eval", "main", "input"])
     if "INVALID INPUT" not in res_eval.stdout:
         print(res_eval.stdout)
@@ -222,9 +225,8 @@ def main() -> None:
         run_test_identical_names()
         run_test_input_validator()
         
-        # Cleanup
         os.chdir("..")
-        shutil.rmtree(PROB_NAME)
+        shutil.rmtree(PROBLEM_NAME)
         
         log("ALL TESTS PASSED.")
     except KeyboardInterrupt:

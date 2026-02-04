@@ -13,8 +13,8 @@ int main() {
     if (!(cin >> n >> m)) return 1;
     if (n < 1 || n > 100) return 1;
     if (m < 1 || m > 100) return 1;
+    return 0; // OK
     */
     
-    // Default: Accept everything
     return 0;
 }

@@ -1,8 +1,16 @@
 #include <iostream>
+
 using namespace std;
+
 int main() {
     int n;
-    if (!(cin >> n)) return 1;
-    if (n <= 0) return 1;
+    if (!(cin >> n)) {
+        return 1;
+    }
+    
+    if (n <= 0) {
+        return 1;
+    }
+
     return 0;
 }

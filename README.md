@@ -9,7 +9,7 @@ CP-Eval is a local competitive programming evaluation and test generation tool w
 - **Evaluation**: Run your solution against a directory of input files, check outputs (diff or custom validator), and measure execution time.
 - **Input Validation**: Automatically check if your input files satisfy problem constraints using a custom validator.
 - **Customizable**: Templates for `gen`, `main`, `brute` are included.
-- **Generator Library**: `gen.cpp` includes helpers for Arrays, Permutations, Trees (Prüfer), and Graphs.
+- **Generator Library**: `genlib.hpp` includes helpers for Arrays, Permutations, Trees (Prüfer), and Graphs (Connected & General).
 
 ## Installation
 
@@ -31,8 +31,7 @@ This creates a folder `ProblemName` with:
 - `main.cpp`: Your solution.
 - `brute.cpp`: Brute-force solution (for stress testing).
 - `gen.cpp`: Generic test case generator.
-- `gen_tree.cpp`, `gen_graph.cpp`: Specialized generators using `genlib.hpp`.
-- `genlib.hpp`: Generator library header.
+- `genlib.hpp`: Generator library header (contains `genTree`, `genConnectedGraph`, `genGraph`, etc.).
 - `stress.cpp` & `eval.cpp`: Comparison tools.
 - `compile.sh`: Script to compile everything.
 
@@ -46,8 +45,6 @@ Inside the problem directory:
 To stress test your solution (`main`) against the brute force (`brute`) using the generator (`gen`):
 ```bash
 ./stress gen main brute
-# OR using a specific generator
-./stress gen_tree main brute
 ```
 You can add more executables to compare if needed.
 If a mismatch is found, it prints the input and the differing outputs, and saves the input to `input.in`.

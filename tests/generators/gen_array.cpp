@@ -7,10 +7,12 @@ int main(int argc, char* argv[]) {
         rng.seed(stoi(argv[1]));
     }
     
-    int n = rand_int(5, 10);
-    int m = rand_int(n - 1, n * (n - 1) / 2);
+    vector<int> a = genArray(10, 1, 20);
     
-    gen_connected_graph(n, m);
+    for (const int& x : a) {
+        cout << x << " ";
+    }
+    cout << endl;
 
     return 0;
 }

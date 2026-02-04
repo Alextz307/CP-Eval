@@ -5,11 +5,7 @@ int main(int argc, char* argv[]) {
         rng.seed(stoi(argv[1]));
     }
 
-    auto p = genPermutation(10);
-    for (const int& x : p) {
-        cout << x << " ";
-    }
-    cout << endl;
+    genConnectedGraph(5, 7);
     
     return 0;
 }

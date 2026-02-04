@@ -1,4 +1,3 @@
-#include <iostream>
 #include "genlib.hpp"
 
 using namespace std;
@@ -8,9 +7,7 @@ int main(int argc, char* argv[]) {
         rng.seed(stoi(argv[1]));
     }
     
-    int n = rand_int(2, 20); // Random size
-    cout << n << endl;
-    gen_tree(n);
+    genGraph(6, 4);
 
     return 0;
 }

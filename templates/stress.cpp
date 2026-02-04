@@ -7,10 +7,6 @@
 
 using namespace std;
 
-// Helper to run a command and capture output is tricky with just system().
-// For simplicity in this template, we will use system() and temporary files.
-// Enhancements: using popen or pipe for direct capture.
-
 int main(int argc, char* argv[]) {
     if (argc < 3) {
         cerr << "Usage: " << argv[0] << " <generator> <executable1> <executable2> ...\n";
@@ -20,47 +16,49 @@ int main(int argc, char* argv[]) {
     string generator = argv[1];
     vector<string> executables;
     for (int i = 2; i < argc; ++i) {
-        executables.push_back(argv[i]);
+        executables.emplace_back(argv[i]);
     }
 
-    int test_case = 1;
+    int testCase = 1;
     while (true) {
-        string cmd_gen = "./" + generator + " " + to_string(test_case) + " > input.in";
-        if (system(cmd_gen.c_str()) != 0) {
-            cerr << "Generator failed at seed " << test_case << endl;
+        string cmdGen = "./" + generator + " " + to_string(testCase) + " > input.in";
+        if (system(cmdGen.c_str()) != 0) {
+            cerr << "Generator failed at seed " << testCase << endl;
             return 1;
         }
 
         vector<string> outputs;
-        bool all_same = true;
+        bool allSame = true;
         
-        cout << "Test " << test_case << ": ";
+        cout << "Test " << testCase << ": ";
 
         for (const auto& exe : executables) {
-            string out_file = exe + ".out";
-            string clean_name = exe;
-            if (clean_name.substr(0, 2) == "./") clean_name = clean_name.substr(2);
-            out_file = clean_name + ".tmp_out";
+            string outFile = exe + ".out";
+            string cleanName = exe;
+            if (cleanName.substr(0, 2) == "./") {
+                cleanName = cleanName.substr(2);
+            }
+            outFile = cleanName + ".tmp_out";
             
-            string cmd_run = "./" + clean_name + " < input.in > " + out_file;
-            if (system(cmd_run.c_str()) != 0) {
+            string cmdRun = "./" + cleanName + " < input.in > " + outFile;
+            if (system(cmdRun.c_str()) != 0) {
                  cerr << "Runtime error in " << exe << endl;
                  return 1;
             }
             
-            ifstream ifs(out_file);
+            ifstream ifs(outFile);
             string content((istreambuf_iterator<char>(ifs)), (istreambuf_iterator<char>()));
-            outputs.push_back(content);
+            outputs.emplace_back(content);
         }
 
         for (size_t i = 1; i < outputs.size(); ++i) {
             if (outputs[i] != outputs[0]) {
-                all_same = false;
+                allSame = false;
                 break;
             }
         }
 
-        if (!all_same) {
+        if (!allSame) {
             cout << "FAILED\n";
             cout << "--- Input ---\n";
             ifstream in("input.in");
@@ -75,7 +73,7 @@ int main(int argc, char* argv[]) {
             cout << "OK" << endl;
         }
 
-        test_case++;
+        testCase += 1;
     }
 
     return 0;

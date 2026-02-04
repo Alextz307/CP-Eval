@@ -8,8 +8,7 @@ int main(int argc, char* argv[]) {
         rng.seed(stoi(argv[1]));
     }
     
-    // Default: Print a single random integer
-    int n = rand_int(1, 100);
+    int n = randInt(1, 100);
     cout << n << endl;
 
     return 0;
