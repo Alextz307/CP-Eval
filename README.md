@@ -7,6 +7,7 @@ CP-Eval is a local competitive programming evaluation and test generation tool w
 - **Problem Generator**: Quickly set up a new problem environment with templates.
 - **Stress Testing**: Run an infinite loop comparing your solution against a brute-force approach (or others) using a generator.
 - **Evaluation**: Run your solution against a directory of input files, check outputs (diff or custom validator), and measure execution time.
+- **Input Validation**: Automatically check if your input files satisfy problem constraints using a custom validator.
 - **Customizable**: Templates for `gen`, `main`, `brute` are included.
 - **Generator Library**: `gen.cpp` includes helpers for Arrays, Permutations, Trees (Prüfer), and Graphs.
 
@@ -69,13 +70,27 @@ To run your solution against a test suite:
 ```
 (Note: A default `validator.cpp` template is included. You should edit it to implement your problem-specific checking logic).
 
+### 5. Input Validation
+To ensure your input files meet problem constraints:
+1. Edit `input_validator.cpp` (template included) to return `0` for valid input and non-zero for invalid input.
+2. Compile it (done automatically by `.compile.sh`).
+3. Run:
+```bash
+./check_inputs input
+```
+This tool checks all files in the `input/` directory and reports any inputs that fail validation.
+
+Additionally, `./eval` will automatically look for `./input_validator`. If it exists, it will validate each input file before running your solution, skipping any invalid inputs.
+
+
 ## Project Structure
 - `src/cp_setup.cpp`: Source code for the problem generator.
 - `templates/`: Directory containing source templates (`main.cpp`, `stress.cpp`, etc.).
 - `install.sh`: Build script that compiles the tool and links the templates.
-- `test_suite.sh`: Script to verify the tool functionality.
+- `test_suite.py`: Python script to verify the tool functionality.
 - `ProblemName/`: Generated problem directory (self-contained, copies templates).
 
 ## Requirements
 - GCC (g++) supporting C++17.
+- Python 3.12 or higher.
 - Unix-like environment (Linux/macOS) **or WSL (Windows Subsystem for Linux)** with bash.

@@ -41,6 +41,8 @@ int main(int argc, char* argv[]) {
             "main.cpp",
             "brute.cpp",
             "gen.cpp",
+            "input_validator.cpp",
+            "check_inputs.cpp",
             "gen_tree.cpp",
             "gen_graph.cpp",
             "genlib.hpp",
@@ -54,7 +56,6 @@ int main(int argc, char* argv[]) {
             copy_template(t, problem_path);
         }
 
-        // Make compile script executable
         fs::permissions(problem_path / "compile.sh", 
             fs::perms::owner_exec | fs::perms::owner_read | fs::perms::owner_write);
 

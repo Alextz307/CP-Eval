@@ -41,11 +41,23 @@ int main(int argc, char* argv[]) {
     }
     sort(inputs.begin(), inputs.end());
 
-    double max_time = 0;
+        double max_time = 0;
     
+    // Check if input_validator exists
+    bool has_input_validator = fs::exists("input_validator");
+
     for (const auto& input_path : inputs) {
         cout << "Test " << input_path.filename() << ": ";
         
+        if (has_input_validator) {
+             string val_cmd = "./input_validator < \"" + input_path.string() + "\" > /dev/null 2>&1";
+             int val_ret = system(val_cmd.c_str());
+             if (val_ret != 0) {
+                 cout << "INVALID INPUT" << endl;
+                 continue;
+             }
+        }
+
         string tmp_output = "temp.out";
         string command = executable + " < \"" + input_path.string() + "\" > " + tmp_output;
 
@@ -63,24 +75,19 @@ int main(int argc, char* argv[]) {
 
         string verdict = "OK";
         
-        // Validation
         if (!validator.empty()) {
-            // ./validator input user_output
             string val_cmd = validator + " \"" + input_path.string() + "\" " + tmp_output;
             int val_ret = system(val_cmd.c_str());
             if (val_ret != 0) verdict = "WA (Validator)";
         } 
         else if (!output_dir.empty()) {
-            // Find corresponding output file
             fs::path expected_out = fs::path(output_dir) / input_path.filename();
             if (!fs::exists(expected_out)) {
-                // Try changing formatting, e.g. .in -> .out
                 expected_out = fs::path(output_dir) / input_path.stem();
                 expected_out += ".out";
             }
 
             if (fs::exists(expected_out)) {
-                // simple diff -w
                 string diff_cmd = "diff -w " + tmp_output + " \"" + expected_out.string() + "\" > /dev/null";
                 int diff_ret = system(diff_cmd.c_str());
                 if (diff_ret != 0) verdict = "WA";
@@ -88,11 +95,7 @@ int main(int argc, char* argv[]) {
                 verdict = "SKIP (No output file)";
             }
         } else {
-             if (validator.empty()) {
-                 verdict = "RUN (No check)";
-             } else {
-                 verdict = "RUN (No check)";
-             }
+             verdict = "RUN (No check)";
         }
 
         cout << verdict << " [" << secs << "s]" << endl;

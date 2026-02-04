@@ -16,6 +16,9 @@ gen
 stress
 eval
 validator
+input_validator
+check_inputs
+!tests/validator/
 
 # Temporary files
 *.tmp

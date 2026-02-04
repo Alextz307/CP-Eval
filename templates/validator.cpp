@@ -23,12 +23,13 @@ int main(int argc, char* argv[]) {
     // --- WRITE VALIDATOR LOGIC HERE ---
     // Example: Check if the output number is the square of the input number
     /*
-    int n; input >> n;
-    int ans; output >> ans;
-    if (ans != n * n) return 1;
+        int n; input >> n;
+        int ans; output >> ans;
+        if (ans != n * n) {
+            return 1;
+        }
+        return 0; // OK
     */
-
-    // return 0; // OK
     
     return 0;
 }
