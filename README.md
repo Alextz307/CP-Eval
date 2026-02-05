@@ -11,6 +11,11 @@ CP-Eval is a local competitive programming evaluation and test generation tool w
 - **Customizable**: Templates for `generator`, `main`, `brute` are included.
 - **Generator Library**: `genlib.hpp` includes helpers for Arrays, Permutations, Trees (Prüfer), and Graphs (Connected & General).
 
+## Requirements
+- GCC (g++) supporting C++17.
+- Python 3.12 or higher.
+- Unix-like environment (Linux/macOS) **or WSL (Windows Subsystem for Linux)** with bash.
+
 ## Installation
 
 1. Clone or download this repository.
@@ -98,10 +103,7 @@ To keep your repository clean, the `.gitignore` is configured to:
 
 You can freely create problem workspaces in the root directory without worrying about accidentally committing them.
 
-## Requirements
-- GCC (g++) supporting C++17.
-- Python 3.12 or higher.
-- Unix-like environment (Linux/macOS) **or WSL (Windows Subsystem for Linux)** with bash.
+
 
 ## Tool Development & Testing
 
