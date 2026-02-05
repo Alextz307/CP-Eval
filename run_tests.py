@@ -52,9 +52,9 @@ def setup_env() -> None:
     if prob_path.exists():
         shutil.rmtree(prob_path)
     
-    cp_eval_bin = root_path / "cp-eval"
+    cp_eval_bin = root_path / "problem_setup"
     if not cp_eval_bin.exists():
-        error("cp-eval binary not found. Run ./install.sh first.")
+        error("problem_setup binary not found. Run ./install.sh first.")
     
     run_command([str(cp_eval_bin), PROBLEM_NAME], capture=True)
     

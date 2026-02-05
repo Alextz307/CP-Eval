@@ -23,13 +23,13 @@ CP-Eval is a local competitive programming evaluation and test generation tool w
    ```bash
    ./build.sh
    ```
-   This creates the `cp-eval` executable.
+   This creates the `problem_setup` executable.
 
 ## Usage
 
 ### 1. Create a New Problem
 ```bash
-./cp-eval ProblemName
+./problem_setup ProblemName
 cd ProblemName
 ```
 This creates a folder `ProblemName` with:
@@ -98,7 +98,7 @@ Additionally, `./eval` will automatically look for `./input_validator`. If it ex
 
 To keep your repository clean, the `.gitignore` is configured to:
 - **Ignore all root-level directories** except `src/`, `templates/`, and `tests/`. This means any new problem directory you create (e.g., `./Codeforces123/`) will **not** be tracked by git.
-- **Ignore build artifacts**: Executables like `cp-eval`, `main`, `brute`, `generator`, etc., are ignored.
+- **Ignore build artifacts**: Executables like `problem_setup`, `main`, `brute`, `generator`, etc., are ignored.
 - **Ignore temporary files**: `.tmp` files, input/output files (`input.in`, `out_main`), and generator outputs are ignored.
 
 You can freely create problem workspaces in the root directory without worrying about accidentally committing them.

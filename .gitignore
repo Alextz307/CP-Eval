@@ -11,7 +11,7 @@
 # Build artifacts
 *.o
 *.dSYM/
-cp-eval
+problem_setup
 
 # Problem Executables (standard names in templates)
 main
