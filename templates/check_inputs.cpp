@@ -31,6 +31,10 @@ int main(int argc, char* argv[]) {
 
   vector<fs::path> inputs;
   for (const auto& entry : fs::directory_iterator(input_dir)) {
+    if (entry.path().filename().string()[0] == '.') {
+      continue;
+    }
+    
     if (entry.path().extension() == ".in" || entry.path().extension().empty()) {
       inputs.push_back(entry.path());
     }
